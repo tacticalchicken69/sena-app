@@ -1,0 +1,29 @@
+{%extends "master.html"%}
+
+{%block title%}Lista de Aprendices{%endblock%}
+
+{%block content%}
+    <h1>Lista de Aprendices</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo Electrónico</th>
+                <th>Programa</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aprendiz in lista_aprendices %}
+            <tr>
+                <td>{{ aprendiz.id }}</td>
+                <td>{{ aprendiz.nombre }}</td>
+                <td>{{ aprendiz.apellido }}</td>
+                <td>{{ aprendiz.email }}</td>
+                <td>{{ aprendiz.programa }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%endblock%}
