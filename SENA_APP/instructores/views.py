@@ -1,11 +1,24 @@
-from unittest import loader
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import loader
+from .models import Instructor
+
+# Create your views here.   
 
 def instructores(request):
-    lista_instructores = Instructor.objects.all().values()
-    template = loader.get_template("listar_instructores.html")
+    lista_instructores = Instructor.objects.all()
+    template = loader.get_template("lista_instructores.html")
     
     context = {
         "lista_instructores": lista_instructores,
+        'total_instructores': lista_instructores.count(),
+    }
+    return HttpResponse(template.render(context, request))
+
+def detalle_instructor(request, id_instructor):
+    instructor = Instructor.objects.get(id=id_instructor)
+    template = loader.get_template('detalle_instructor.html')
+    context = {
+        'instructor': instructor,
     }
     return HttpResponse(template.render(context, request))
