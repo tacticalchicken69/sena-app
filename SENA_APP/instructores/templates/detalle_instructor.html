@@ -11,7 +11,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/" class="back-link">Inicio</a></li>
                     <li class="breadcrumb-item">
-                        <!-- Enlace a la lista de instructores. Asegúrate de que 'instructores:lista_instructores' esté en tu urls.py -->
+                        <!-- Enlace a la lista de instructores. -->
                         <a href="{% url 'instructores:lista_instructores' %}" class="back-link">Lista Instructores</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ instructor.nombre_completo }}</li>
@@ -61,10 +61,7 @@
                                 {% endif %}
                             </div>
                             
-                            <!-- Botón de edición opcional -->
-                            <a href="#" class="btn btn-outline-primary btn-sm mt-3">
-                                <i class="bi bi-pencil-square me-1"></i> Editar Perfil
-                            </a>
+                            <!-- Botón de edición ELIMINADO -->
                         </div>
                         
                         <!-- Columna de Detalles (9/12) -->
@@ -90,7 +87,8 @@
                                     <h6 class="text-muted mb-1 small">Contacto</h6>
                                     <p class="mb-1">
                                         <i class="bi bi-envelope-fill text-primary me-2"></i>
-                                        <a href="mailto:{{ instructor.correo }}">{{ instructor.correo }}</a>
+                                        <!-- Correo como texto simple, sin enlace mailto -->
+                                        {{ instructor.correo }}
                                     </p>
                                     {% if instructor.telefono %}
                                     <p class="mb-0">
@@ -164,14 +162,14 @@
                     {% if cursos_coordinados %}
                     <div class="list-group list-group-flush">
                         {% for curso in cursos_coordinados %}
-                        <!-- Enlace de ejemplo, ajusta el URL si tienes una vista de detalle de curso -->
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <!-- Elemento de lista simple, sin enlace -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="mb-1 text-success">{{ curso.nombre }}</h6>
                                 <small class="text-muted"><i class="bi bi-hash me-1"></i>{{ curso.codigo }}</small>
                             </div>
                             <span class="badge bg-success">Coordinador</span>
-                        </a>
+                        </div>
                         {% endfor %}
                     </div>
                     {% else %}
@@ -198,14 +196,14 @@
                     {% if cursos_impartidos %}
                     <div class="list-group list-group-flush">
                         {% for curso in cursos_impartidos %}
-                        <!-- Enlace de ejemplo, ajusta el URL si tienes una vista de detalle de curso -->
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <!-- Elemento de lista simple, sin enlace -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="mb-1 text-info">{{ curso.nombre }}</h6>
                                 <small class="text-muted"><i class="bi bi-hash me-1"></i>{{ curso.codigo }}</small>
                             </div>
                             <span class="badge bg-info">Instructor</span>
-                        </a>
+                        </div>
                         {% endfor %}
                     </div>
                     {% else %}
@@ -220,5 +218,24 @@
     </div> 
 </div>
 
-
+<!-- Estilos para el diseño (Se recomienda mover esto a tu static/css/style.css) -->
+<style>
+    .bg-sena-green {
+        background-color: #009846 !important;
+    }
+    .text-primary {
+        color: #009846 !important;
+    }
+    /* Estilos de botones ELIMINADOS, pero se mantienen otros estilos para el diseño */
+    .instructor-avatar {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        font-weight: 600;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    /* Eliminado .list-group-item:hover para evitar la sensación de ser clicable */
+</style>
 {% endblock %}

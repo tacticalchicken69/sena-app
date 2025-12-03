@@ -1,0 +1,191 @@
+{% extends "master.html" %}
+
+{% block title %}Detalle de {{ programa.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Breadcrumb y Navegación -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="back-link">Inicio</a></li>
+                    <li class="breadcrumb-item">
+                        <!-- CORRECCIÓN CLAVE: Enlace a la lista de programas usando el namespace 'programas' -->
+                        <a href="{% url 'programas:lista_programas' %}" class="back-link">Lista Programas</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ programa.nombre }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Información Principal y Resumen -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <!-- Encabezado de la Tarjeta con estilo SENA -->
+                <div class="card-header bg-sena-green d-flex align-items-center text-white rounded-top-lg">
+                    <i class="bi bi-book-half me-2" style="font-size: 1.25rem;"></i>
+                    <h4 class="mb-0">Detalle del Programa de Formación</h4>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row g-4">
+                        <!-- Columna del Código y Estado (3/12) -->
+                        <div class="col-md-3 text-center border-end">
+                            <div class="programa-avatar mb-3 mx-auto" style="
+                                width: 100px; 
+                                height: 100px; 
+                                border-radius: 50%; 
+                                background-color: #009846; /* Color SENA Green */
+                                color: white;
+                                font-size: 2.5rem;
+                                line-height: 100px;
+                                font-weight: bold;
+                                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                                <!-- Muestra la primera letra del nombre -->
+                                {{ programa.nombre.0|default:"" }}
+                            </div>
+                            <h4 class="text-primary">{{ programa.nombre }}</h4>
+                            <p class="text-muted small">{{ programa.get_nivel_formacion_display }}</p>
+                            
+                            <!-- Estado del Programa -->
+                            <div class="mb-3">
+                                {% if programa.estado == 'ACT' %}
+                                <span class="badge bg-success py-2 px-3 shadow-sm">
+                                    <i class="bi bi-check-circle me-1"></i>{{ programa.get_estado_display }}
+                                </span>
+                                {% elif programa.estado == 'INA' or programa.estado == 'CAN' %}
+                                <span class="badge bg-danger py-2 px-3 shadow-sm">
+                                    <i class="bi bi-x-circle me-1"></i>{{ programa.get_estado_display }}
+                                </span>
+                                {% else %}
+                                <span class="badge bg-warning py-2 px-3 shadow-sm">
+                                    <i class="bi bi-exclamation-triangle me-1"></i>{{ programa.get_estado_display }}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Columna de Detalles (9/12) -->
+                        <div class="col-md-9">
+                            
+                            <h5 class="text-secondary mb-3 border-bottom pb-2"><i class="bi bi-info-circle me-2"></i>Información General del Programa</h5>
+                            
+                            <div class="row g-3">
+                                <!-- Código -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Código del Programa</h6>
+                                    <p class="mb-0 fw-bold">{{ programa.codigo }}</p>
+                                </div>
+                                <!-- Nivel de Formación -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Nivel de Formación</h6>
+                                    <p class="mb-0 fw-bold text-primary">{{ programa.get_nivel_formacion_display }}</p>
+                                </div>
+                                <!-- Modalidad -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Modalidad</h6>
+                                    <p class="mb-0 fw-bold">
+                                        <i class="bi bi-globe me-2 text-info"></i>{{ programa.get_modalidad_display }}
+                                    </p>
+                                </div>
+                                <!-- Duración -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Duración</h6>
+                                    <p class="mb-0 fw-bold">
+                                        <i class="bi bi-clock me-2 text-success"></i>{{ programa.duracion_meses }} meses
+                                    </p>
+                                </div>
+                                <!-- Versión/Revisión -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Versión/Revisión</h6>
+                                    <p class="mb-0">
+                                        <i class="bi bi-tags me-2 text-warning"></i>{{ programa.version }}
+                                    </p>
+                                </div>
+                                <!-- Fechas del Programa -->
+                                <div class="col-lg-6 col-md-12">
+                                    <h6 class="text-muted mb-1 small">Fechas Importantes</h6>
+                                    <p class="mb-1">
+                                        <i class="bi bi-calendar-plus text-secondary me-2"></i>
+                                        Creación: {{ programa.fecha_creacion|date:"d/m/Y" }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="bi bi-calendar-check text-success me-2"></i>
+                                        Registro en el Sistema: {{ programa.fecha_registro|date:"d/m/Y" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <!-- Descripción Detallada (Full Width) -->
+        <div class="col-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-header d-flex align-items-center bg-light">
+                    <i class="bi bi-file-text me-2 text-primary"></i>
+                    <h5 class="mb-0">Descripción Detallada</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Utiliza linebreaksbr para respetar los saltos de línea en el texto -->
+                    <p class="text-justify">{{ programa.descripcion|linebreaksbr }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Placeholder para Cursos/Fichas asociadas (Full Width) -->
+        <div class="col-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-people me-2 text-info"></i>
+                        <h5 class="mb-0">Cursos/Fichas Asociadas</h5>
+                    </div>
+                    <!-- Nota: El número de fichas depende de la lógica de tu vista/modelo -->
+                    <span class="badge bg-info text-white py-1 px-2">0 Fichas</span> 
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-4">
+                        <i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-2">No hay fichas activas asociadas a este programa de formación.</p>
+                        <small class="text-secondary">Para que esta sección funcione, necesitarías la lógica de tu vista y los modelos para cargar las fichas relacionadas.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Estilos para el diseño (Se recomienda mover esto a tu static/css/style.css) -->
+<style>
+    .bg-sena-green {
+        background-color: #009846 !important;
+    }
+    .text-primary {
+        color: #009846 !important;
+    }
+    .programa-avatar {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        font-weight: 600;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    .back-link {
+        color: #009846;
+        text-decoration: none;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
