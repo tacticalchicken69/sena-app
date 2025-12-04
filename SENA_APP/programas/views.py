@@ -6,10 +6,10 @@ from .models import Programa
 
 def main(request):
     template = loader.get_template("main.html")
-    return HttpResponse(template.render())
+    return HttpResponse(template.render({}, request))
 
 def programas(request):
-    lista_programas = Programa.objects.all().values()
+    lista_programas = Programa.objects.all()
     template = loader.get_template("lista_programas.html")
     context = {
         "lista_programas": lista_programas,
@@ -18,9 +18,9 @@ def programas(request):
 
 
 def detalle_programa(request, programa_id):
-    programa_detalle = Programa.objects.get(id=programa_id)
-    template = loader.get_template("programa_detalle.html")
+    programa = Programa.objects.get(id=programa_id)
+    template = loader.get_template("detalle_programas.html")
     context = {
-        "programa_detalle": programa_detalle,
+        "programa": programa,
     }
     return HttpResponse(template.render(context, request))

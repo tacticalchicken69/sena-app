@@ -11,7 +11,6 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/" class="back-link">Inicio</a></li>
                     <li class="breadcrumb-item">
-                        <!-- CORRECCIÓN CLAVE: Enlace a la lista de programas usando el namespace 'programas' -->
                         <a href="{% url 'programas:lista_programas' %}" class="back-link">Lista Programas</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ programa.nombre }}</li>
@@ -24,7 +23,6 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow-sm border-0">
-                <!-- Encabezado de la Tarjeta con estilo SENA -->
                 <div class="card-header bg-sena-green d-flex align-items-center text-white rounded-top-lg">
                     <i class="bi bi-book-half me-2" style="font-size: 1.25rem;"></i>
                     <h4 class="mb-0">Detalle del Programa de Formación</h4>
@@ -32,19 +30,10 @@
                 
                 <div class="card-body">
                     <div class="row g-4">
-                        <!-- Columna del Código y Estado (3/12) -->
+                        <!-- Columna de Resumen (3/12) -->
                         <div class="col-md-3 text-center border-end">
-                            <div class="programa-avatar mb-3 mx-auto" style="
-                                width: 100px; 
-                                height: 100px; 
-                                border-radius: 50%; 
-                                background-color: #009846; /* Color SENA Green */
-                                color: white;
-                                font-size: 2.5rem;
-                                line-height: 100px;
-                                font-weight: bold;
-                                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-                                <!-- Muestra la primera letra del nombre -->
+                            <!-- Avatar de la primera letra del nombre -->
+                            <div class="programa-avatar mb-3 mx-auto">
                                 {{ programa.nombre.0|default:"" }}
                             </div>
                             <h4 class="text-primary">{{ programa.nombre }}</h4>
@@ -56,56 +45,67 @@
                                 <span class="badge bg-success py-2 px-3 shadow-sm">
                                     <i class="bi bi-check-circle me-1"></i>{{ programa.get_estado_display }}
                                 </span>
-                                {% elif programa.estado == 'INA' or programa.estado == 'CAN' %}
+                                {% else %}
                                 <span class="badge bg-danger py-2 px-3 shadow-sm">
                                     <i class="bi bi-x-circle me-1"></i>{{ programa.get_estado_display }}
-                                </span>
-                                {% else %}
-                                <span class="badge bg-warning py-2 px-3 shadow-sm">
-                                    <i class="bi bi-exclamation-triangle me-1"></i>{{ programa.get_estado_display }}
                                 </span>
                                 {% endif %}
                             </div>
                         </div>
                         
-                        <!-- Columna de Detalles (9/12) -->
+                        <!-- Columna de Metadatos (9/12) -->
                         <div class="col-md-9">
                             
-                            <h5 class="text-secondary mb-3 border-bottom pb-2"><i class="bi bi-info-circle me-2"></i>Información General del Programa</h5>
+                            <h5 class="text-secondary mb-3 border-bottom pb-2"><i class="bi bi-info-circle me-2"></i>Datos de Registro y Ubicación</h5>
                             
                             <div class="row g-3">
                                 <!-- Código -->
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-6">
                                     <h6 class="text-muted mb-1 small">Código del Programa</h6>
                                     <p class="mb-0 fw-bold">{{ programa.codigo }}</p>
                                 </div>
                                 <!-- Nivel de Formación -->
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-6">
                                     <h6 class="text-muted mb-1 small">Nivel de Formación</h6>
                                     <p class="mb-0 fw-bold text-primary">{{ programa.get_nivel_formacion_display }}</p>
                                 </div>
                                 <!-- Modalidad -->
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-6">
                                     <h6 class="text-muted mb-1 small">Modalidad</h6>
                                     <p class="mb-0 fw-bold">
                                         <i class="bi bi-globe me-2 text-info"></i>{{ programa.get_modalidad_display }}
                                     </p>
                                 </div>
-                                <!-- Duración -->
-                                <div class="col-lg-6 col-md-12">
-                                    <h6 class="text-muted mb-1 small">Duración</h6>
+                                
+                                <!-- Duración Meses -->
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="text-muted mb-1 small">Duración (Meses)</h6>
                                     <p class="mb-0 fw-bold">
-                                        <i class="bi bi-clock me-2 text-success"></i>{{ programa.duracion_meses }} meses
+                                        <i class="bi bi-clock me-2 text-success"></i>{{ programa.duracion_meses }}
                                     </p>
                                 </div>
-                                <!-- Versión/Revisión -->
+                                <!-- Duración Horas -->
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="text-muted mb-1 small">Duración Total (Horas)</h6>
+                                    <p class="mb-0 fw-bold">
+                                        <i class="bi bi-hourglass me-2 text-secondary"></i>{{ programa.duracion_horas }}
+                                    </p>
+                                </div>
+                                <!-- Regional -->
+                                <div class="col-lg-4 col-md-6">
+                                    <h6 class="text-muted mb-1 small">Regional</h6>
+                                    <p class="mb-0 fw-bold">
+                                        <i class="bi bi-geo-alt me-2 text-warning"></i>{{ programa.regional }}
+                                    </p>
+                                </div>
+                                <!-- Centro de Formación -->
                                 <div class="col-lg-6 col-md-12">
-                                    <h6 class="text-muted mb-1 small">Versión/Revisión</h6>
-                                    <p class="mb-0">
-                                        <i class="bi bi-tags me-2 text-warning"></i>{{ programa.version }}
+                                    <h6 class="text-muted mb-1 small">Centro de Formación</h6>
+                                    <p class="mb-0 fw-bold">
+                                        <i class="bi bi-building me-2 text-primary"></i>{{ programa.centro_formacion }}
                                     </p>
                                 </div>
-                                <!-- Fechas del Programa -->
+                                <!-- Fechas -->
                                 <div class="col-lg-6 col-md-12">
                                     <h6 class="text-muted mb-1 small">Fechas Importantes</h6>
                                     <p class="mb-1">
@@ -114,7 +114,7 @@
                                     </p>
                                     <p class="mb-0">
                                         <i class="bi bi-calendar-check text-success me-2"></i>
-                                        Registro en el Sistema: {{ programa.fecha_registro|date:"d/m/Y" }}
+                                        Registro en Sistema: {{ programa.fecha_registro|date:"d/m/Y h:i A" }}
                                     </p>
                                 </div>
                             </div>
@@ -126,36 +126,50 @@
     </div>
 
     <div class="row g-4 mt-2">
-        <!-- Descripción Detallada (Full Width) -->
+        
+        <!-- Pestañas para Contenido Detallado -->
         <div class="col-12">
             <div class="card shadow-sm h-100">
                 <div class="card-header d-flex align-items-center bg-light">
-                    <i class="bi bi-file-text me-2 text-primary"></i>
-                    <h5 class="mb-0">Descripción Detallada</h5>
+                    <i class="bi bi-journal-text me-2 text-primary"></i>
+                    <h5 class="mb-0">Contenido del Programa</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Utiliza linebreaksbr para respetar los saltos de línea en el texto -->
-                    <p class="text-justify">{{ programa.descripcion|linebreaksbr }}</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Placeholder para Cursos/Fichas asociadas (Full Width) -->
-        <div class="col-12">
-            <div class="card shadow-sm h-100">
-                <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-people me-2 text-info"></i>
-                        <h5 class="mb-0">Cursos/Fichas Asociadas</h5>
-                    </div>
-                    <!-- Nota: El número de fichas depende de la lógica de tu vista/modelo -->
-                    <span class="badge bg-info text-white py-1 px-2">0 Fichas</span> 
-                </div>
-                <div class="card-body">
-                    <div class="text-center py-4">
-                        <i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-muted mt-2">No hay fichas activas asociadas a este programa de formación.</p>
-                        <small class="text-secondary">Para que esta sección funcione, necesitarías la lógica de tu vista y los modelos para cargar las fichas relacionadas.</small>
+                    <ul class="nav nav-tabs mb-3" id="programTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="descripcion-tab" data-bs-toggle="tab" data-bs-target="#descripcion" type="button" role="tab" aria-controls="descripcion" aria-selected="true">Descripción</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="competencias-tab" data-bs-toggle="tab" data-bs-target="#competencias" type="button" role="tab" aria-controls="competencias" aria-selected="false">Competencias</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="egreso-tab" data-bs-toggle="tab" data-bs-target="#egreso" type="button" role="tab" aria-controls="egreso" aria-selected="false">Perfil de Egreso</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="requisitos-tab" data-bs-toggle="tab" data-bs-target="#requisitos" type="button" role="tab" aria-controls="requisitos" aria-selected="false">Requisitos</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="programTabsContent">
+                        <!-- Pestaña: Descripción -->
+                        <div class="tab-pane fade show active" id="descripcion" role="tabpanel" aria-labelledby="descripcion-tab">
+                            <!-- linebreaksbr respeta los saltos de línea ingresados por el usuario -->
+                            <p class="text-justify">{{ programa.descripcion|linebreaksbr }}</p>
+                        </div>
+                        
+                        <!-- Pestaña: Competencias -->
+                        <div class="tab-pane fade" id="competencias" role="tabpanel" aria-labelledby="competencias-tab">
+                            <p class="text-justify">{{ programa.competencias|linebreaksbr }}</p>
+                        </div>
+                        
+                        <!-- Pestaña: Perfil de Egreso -->
+                        <div class="tab-pane fade" id="egreso" role="tabpanel" aria-labelledby="egreso-tab">
+                            <p class="text-justify">{{ programa.perfil_egreso|linebreaksbr }}</p>
+                        </div>
+
+                        <!-- Pestaña: Requisitos de Ingreso -->
+                        <div class="tab-pane fade" id="requisitos" role="tabpanel" aria-labelledby="requisitos-tab">
+                            <p class="text-justify">{{ programa.requisitos_ingreso|linebreaksbr }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +177,7 @@
     </div> 
 </div>
 
-<!-- Estilos para el diseño (Se recomienda mover esto a tu static/css/style.css) -->
+<!-- Estilos y Script de Bootstrap para Tabs -->
 <style>
     .bg-sena-green {
         background-color: #009846 !important;
@@ -172,7 +186,18 @@
         color: #009846 !important;
     }
     .programa-avatar {
+        /* Estilo para la letra inicial del nombre */
+        width: 100px; 
+        height: 100px; 
+        border-radius: 50%; 
+        background-color: #009846;
+        color: white;
+        font-size: 2.5rem;
+        line-height: 100px;
+        font-weight: bold;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto 1rem;
+        text-transform: uppercase;
     }
     .card-header {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -187,5 +212,11 @@
     .back-link:hover {
         text-decoration: underline;
     }
+    /* Estilos para las pestañas */
+    .nav-tabs .nav-link.active {
+        color: #009846;
+        border-color: #009846 #009846 #fff;
+    }
 </style>
+<!-- Se asume que el master.html incluye los archivos JS de Bootstrap para que las pestañas funcionen -->
 {% endblock %}

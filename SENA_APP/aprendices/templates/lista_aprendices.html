@@ -4,7 +4,7 @@
 
 {%block content%}
     <h1>Lista de Aprendices</h1>
-    <table>
+    <table class="app-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -17,11 +17,11 @@
         <tbody>
             {% for aprendiz in lista_aprendices %}
             <tr>
-                <td>{{ aprendiz.id }}</td>
-                <td>{{ aprendiz.nombre }}</td>
-                <td>{{ aprendiz.apellido }}</td>
-                <td>{{ aprendiz.email }}</td>
-                <td>{{ aprendiz.programa }}</td>
+                <td data-label="ID">{{ aprendiz.id }}</td>
+                <td data-label="Nombre">{{ aprendiz.nombre }}</td>
+                <td data-label="Apellido">{{ aprendiz.apellido }}</td>
+                <td data-label="Correo">{{ aprendiz.correo_electronico }}</td>
+                <td data-label="Programa">{{ aprendiz.programa }}</td>
             </tr>
             {% endfor %}
         </tbody>

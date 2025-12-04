@@ -6,7 +6,7 @@ from .models import Instructor
 # Create your views here.   
 def main(request):
     template = loader.get_template("main.html")
-    return HttpResponse(template.render())
+    return HttpResponse(template.render({}, request))
 def instructores(request):
     lista_instructores = Instructor.objects.all()
     template = loader.get_template("lista_instructores.html")

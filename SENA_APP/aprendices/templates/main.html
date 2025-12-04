@@ -9,10 +9,10 @@
             <p style="font-size: 0.9rem; opacity: 0.9;">Administra y consulta la información de los aprendices e instructores de manera eficiente.</p>
             
             <div class="hero-buttons">
-                <a href="/aprendices" class="btn-white">Ver Aprendices</a>
-                <a href="/instructores" class="btn-white">Ver Instructores</a>
-                <a href="/programas" class="btn-white">Ver Programas</a>
-                <a href="/cursos" class="btn-white">Ver Cursos</a>
+                <a href="{% url 'aprendices:lista_aprendices' %}" class="btn-white">Ver Aprendices</a>
+                <a href="{% url 'instructores:lista_instructores' %}" class="btn-white">Ver Instructores</a>
+                <a href="{% url 'programas:lista_programas' %}" class="btn-white">Ver Programas</a>
+                <a href="{% url 'cursos:lista_cursos' %}" class="btn-white">Ver Cursos</a>
             </div>
         </section>
 
@@ -22,27 +22,27 @@
                 <div>
                     <h3>Lista de Aprendices</h3>
                     <p>Consulta todos los aprendices registrados en el sistema.</p>
-                    <div class="stats">Total de Aprendices: 27</div>
+                    <div class="stats">Total de Aprendices: {{ total_aprendices }}</div>
                 </div>
-                <a href="#" class="btn-green">Ver Lista</a>
+                <a href="{% url 'aprendices:lista_aprendices' %}" class="btn-green">Ver Lista</a>
             </article>
 
             <article class="card">
                 <div>
                     <h3>Lista de Instructores</h3>
                     <p>Consulta todos los instructores registrados en el sistema.</p>
-                    <div class="stats">Total de Instructores: 8</div>
+                    <div class="stats">Total de Instructores: {{ total_instructores }}</div>
                 </div>
-                <a href="#" class="btn-green">Ver Lista</a>
+                <a href="{% url 'instructores:lista_instructores' %}" class="btn-green">Ver Lista</a>
             </article>
 
             <article class="card">
                 <div>
                     <h3>Lista de Programas</h3>
                     <p>Consulta todos los programas registrados en el sistema.</p>
-                    <div class="stats">Total de Programas: 5</div>
+                    <div class="stats">Total de Programas: {{ total_programas }}</div>
                 </div>
-                <a href="#" class="btn-green">Ver Lista</a>
+                <a href="{% url 'programas:lista_programas' %}" class="btn-green">Ver Lista</a>
             </article>
 
             <article class="card">
@@ -50,11 +50,11 @@
                     <h3>Lista de Cursos</h3>
                     <p>Consulta todos los Cursos registrados en el sistema.</p>
                     <div class="stats">
-                        Total de Cursos: 2<br>
-                        Cursos Activos: 1
+                        Total de Cursos: {{ total_cursos }}<br>
+                        Cursos Activos: {{ cursos_activos }}
                     </div>
                 </div>
-                <a href="#" class="btn-green">Ver Lista</a>
+                <a href="{% url 'cursos:lista_cursos' %}" class="btn-green">Ver Lista</a>
             </article>
 
         </section>
