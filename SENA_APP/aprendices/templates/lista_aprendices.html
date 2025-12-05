@@ -3,27 +3,94 @@
 {%block title%}Lista de Aprendices{%endblock%}
 
 {%block content%}
-    <h1>Lista de Aprendices</h1>
-    <table class="app-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo Electrónico</th>
-                <th>Programa</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for aprendiz in lista_aprendices %}
-            <tr>
-                <td data-label="ID">{{ aprendiz.id }}</td>
-                <td data-label="Nombre">{{ aprendiz.nombre }}</td>
-                <td data-label="Apellido">{{ aprendiz.apellido }}</td>
-                <td data-label="Correo">{{ aprendiz.correo_electronico }}</td>
-                <td data-label="Programa">{{ aprendiz.programa }}</td>
-            </tr>
+    <div class="container mt-4">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>Lista de Aprendices</h1>
+            <a href="{% url 'aprendices:crear_aprendiz' %}" class="btn btn-primary">
+                + Agregar Aprendiz
+            </a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert" style="margin-bottom: 15px;">
+                    {{ message }}
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
+        {% endif %}
+
+        {% if lista_aprendices %}
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background-color: #2c3e50; color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Documento</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Nombre Completo</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Correo</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Teléfono</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Programa</th>
+                            <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aprendiz in lista_aprendices %}
+                        <tr style="border-bottom: 1px solid #ddd; hover-background: #f8f9fa;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">{{ aprendiz.documento_identidad }}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">{{ aprendiz.nombre_completo }}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">{{ aprendiz.correo_electronico }}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">{{ aprendiz.telefono }}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">
+                                {% if aprendiz.programa %}
+                                    <span style="background-color: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">{{ aprendiz.programa }}</span>
+                                {% else %}
+                                    <span style="background-color: #6c757d; color: white; padding: 4px 8px; border-radius: 4px;">Sin programa</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                                <a href="{% url 'aprendices:detalle_aprendiz' aprendiz.id %}" 
+                                   style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;"
+                                   title="Ver detalle">
+                                   Ver
+                                </a>
+                                <a href="{% url 'aprendices:editar_aprendiz' aprendiz.id %}" 
+                                   style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 4px; font-size: 14px;"
+                                   title="Editar">
+                                   Editar
+                                </a>
+                                <a href="{% url 'aprendices:eliminar_aprendiz' aprendiz.id %}" 
+                                   style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;"
+                                   title="Eliminar"
+                                   onclick="return confirm('¿Está seguro de eliminar a {{ aprendiz.nombre_completo }}?')">
+                                   Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+                <div style="margin-top: 20px; text-align: center;">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" style="padding: 8px 12px; margin: 0 4px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Primera</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" style="padding: 8px 12px; margin: 0 4px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Anterior</a>
+                    {% endif %}
+
+                    <span style="padding: 8px 12px; margin: 0 4px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" style="padding: 8px 12px; margin: 0 4px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Siguiente</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" style="padding: 8px 12px; margin: 0 4px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">Última</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div style="background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; padding: 12px; border-radius: 4px;">
+                <strong>Sin aprendices registrados</strong><br>
+                Aún no hay aprendices en el sistema. 
+                <a href="{% url 'aprendices:crear_aprendiz' %}">Haz clic aquí para agregar uno.</a>
+            </div>
+        {% endif %}
+    </div>
 {%endblock%}
