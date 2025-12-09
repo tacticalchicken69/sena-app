@@ -20,12 +20,11 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center bg-sena-green p-3 text-white rounded shadow-sm">
-                <h2 class="mb-0 fs-4">
-                    <i class="bi bi-book me-2"></i>Gestión de Cursos
-                </h2>
-                <span class="badge bg-light text-sena-green p-2 fw-bold fs-6">
-                    Total: {{ lista_cursos|length }} cursos
-                </span>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <h2 class="mb-0 fs-4"><i class="bi bi-book me-2"></i>Gestión de Cursos</h2>
+                    <a href="{% url 'cursos:crear_curso' %}" class="btn btn-primary">+ Agregar Curso</a>
+                    <span class="badge bg-light text-sena-green p-2 fw-bold fs-6">Total: {{ lista_cursos|length }} cursos</span>
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +55,13 @@
                                             <td>
                                                 <div class="fw-bold text-primary">{{ curso.nombre }}</div>
                                             </td>
-                                            <td>{{ curso.programa.nombre }}</td>
+                                            <td>
+                                                {% if curso.programa %}
+                                                    <span style="background-color: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">{{ curso.programa.nombre }}</span>
+                                                {% else %}
+                                                    <span style="background-color: #6c757d; color: white; padding: 4px 8px; border-radius: 4px;">Sin programa</span>
+                                                {% endif %}
+                                            </td>
                                             <td>{{ curso.fecha_inicio|date:"d/m/Y" }}</td>
                                             <td>{{ curso.fecha_fin|date:"d/m/Y" }}</td>
                                             <td>
@@ -70,14 +75,22 @@
                                                     <span class="badge bg-warning text-dark shadow-sm">{{ curso.get_estado_display }}</span>
                                                 {% endif %}
                                             </td>
-                                            <td>
-                                                <a href="{% url 'cursos:detalle_cursos' curso.id %}" class="btn btn-sm btn-outline-primary">Ver</a>
-                                            </td>
+                                                          <td>
+                                                                <a href="{% url 'cursos:detalle_cursos' curso.id %}" 
+                                                                    style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;" 
+                                                                    title="Ver detalle">Ver</a>
+                                                                <a href="{% url 'cursos:editar_curso' curso.id %}" 
+                                                                    style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 4px; font-size: 14px;" 
+                                                                    title="Editar">Editar</a>
+                                                                <a href="{% url 'cursos:eliminar_curso' curso.id %}" 
+                                                                    style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;" 
+                                                                    title="Eliminar" onclick="return confirm('¿Eliminar el curso {{ curso.nombre }}?')">Eliminar</a>
+                                                          </td>
                                         </tr>
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="6" class="text-center py-5">
+                                        <td colspan="7" class="text-center py-5">
                                             <i class="bi bi-file-earmark-x text-danger" style="font-size: 2rem;"></i>
                                             <p class="mb-0 mt-2 text-muted">No se encontraron cursos registrados.</p>
                                         </td>

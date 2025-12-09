@@ -20,12 +20,11 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center bg-sena-green p-3 text-white rounded shadow-sm">
-                <h2 class="mb-0 fs-4">
-                    <i class="bi bi-list-columns-reverse me-2"></i>Catálogo de Programas
-                </h2>
-                <span class="badge bg-light text-sena-green p-2 fw-bold fs-6">
-                    Total: {{ lista_programas|length }} programas
-                </span>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <h2 class="mb-0 fs-4"><i class="bi bi-list-columns-reverse me-2"></i>Catálogo de Programas</h2>
+                    <a href="{% url 'programas:crear_programa' %}" class="btn btn-primary">+ Agregar Programa</a>
+                    <span class="badge bg-light text-sena-green p-2 fw-bold fs-6">Total: {{ lista_programas|length }} programas</span>
+                </div>
             </div>
         </div>
     </div>
@@ -73,10 +72,14 @@
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                <!-- Enlace a la vista de detalle con URL corregido -->
-                                                <a href="{% url 'programas:detalle_programas' programa.id %}" class="btn btn-sm btn-outline-primary shadow-sm" title="Ver Detalle">
-                                                    <i class="bi bi-eye"></i> Ver
-                                                </a>
+                                                                     <a href="{% url 'programas:detalle_programas' programa.id %}" 
+                                                                         style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;" 
+                                                                         title="Ver Detalle">Ver</a>
+                                                                     <a href="{% url 'programas:editar_programa' programa.id %}" 
+                                                                         style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 4px; font-size: 14px;">Editar</a>
+                                                                     <a href="{% url 'programas:eliminar_programa' programa.id %}" 
+                                                                         style="display: inline-block; margin: 0 4px; padding: 6px 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;" 
+                                                                         onclick="return confirm('¿Eliminar el programa {{ programa.nombre }}?')">Eliminar</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
